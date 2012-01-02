@@ -12,7 +12,7 @@ module Seabright
         return $bundles[@name]
       end
       $bundles[@name] = self
-      yield(self)
+      self.instance_eval(&block)
       if @type!=:inline
         save_files
       end
@@ -29,11 +29,13 @@ module Seabright
       @javascripts ||= []
       @javascripts.push file ? Javascript.from_file(file).minified : Javascript.new(capture(&block)).minified
     end
+    alias :js, :javascript
     
     def stylesheet(file=nil,&block)
       @stylesheets ||= []
       @stylesheets.push file ? Stylesheet.from_file(file) : Stylesheet.new(capture(&block))
     end
+    alias :css, :stylesheet
     
     def javascript_url
       url
