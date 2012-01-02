@@ -8,7 +8,7 @@ module Seabright
       @name = name.to_sym
       $bundles ||= {}
       if slf=$bundles[@name]
-        if slf.type==:inline
+        if type==:inline
           return slf.inline_html
         else
           return slf.html
