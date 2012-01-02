@@ -11,6 +11,10 @@ module Seabright
       content.compress.strip
     end
     
+    def to_s
+      minified
+    end
+    
     module Minifier
       def compress
         self
