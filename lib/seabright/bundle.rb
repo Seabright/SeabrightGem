@@ -46,15 +46,15 @@ module Seabright
     def html
       return @html if @html
       @html = ""
-      @html << "<link rel=\"stylesheet\" href=\"#{stylesheet_url}\" media=\"screen\"/>" if @stylesheets
-      @html << "<script language=\"javascript\" href=\"#{javascript_url}\"></script>" if @javascripts
+      @html << "<link rel=\"stylesheet\" href=\"#{stylesheet_url}\" media=\"screen\"/>\n" if @stylesheets
+      @html << "<script language=\"javascript\" href=\"#{javascript_url}\"></script>\n" if @javascripts
     end
     
     def inline_html
       return @inline if @inline
       @inline = ""
-      @inline << "<style media=\"screen\">#{stylesheet_code}</style>" if @stylesheets
-      @inline << "<script language=\"javascript\">#{javascript_code}</script>" if @javascripts
+      @inline << "<style media=\"screen\">\n#{stylesheet_code}\n</style>\n" if @stylesheets
+      @inline << "<script language=\"javascript\">\n#{javascript_code}\n</script>\n" if @javascripts
     end
     
     class << self
