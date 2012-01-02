@@ -3,5 +3,6 @@ module Seabright
   autoload :ClassFactory, "seabright/class_factory"
   autoload :Stylesheet, "seabright/stylesheet"
   autoload :Javascript, "seabright/javascript"
-  autoload :Image, "seabright/image"  
+  autoload :Image, "seabright/image"
+  autoload :Bundle, "seabright/bundle"
 end
