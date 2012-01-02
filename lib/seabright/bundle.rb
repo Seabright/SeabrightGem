@@ -15,7 +15,7 @@ module Seabright
         end
       end
       $bundles[@name] = self
-      content = capture(&block)
+      #content = capture(&block)
       if type==:inline
         return inline_html
       else
