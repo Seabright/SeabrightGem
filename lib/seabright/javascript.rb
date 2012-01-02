@@ -3,7 +3,7 @@ module Seabright
     module Minifier
       def compress
         require 'closure-compiler'
-        Closure::Compiler.new.compile(self)
+        self = Closure::Compiler.new.compile(self)
       end
     end
   end
