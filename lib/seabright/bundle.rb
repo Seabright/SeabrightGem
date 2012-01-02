@@ -76,11 +76,11 @@ module Seabright
     end
     
     def javascript_code
-      @javascripts.join("\n")
+      @javascripts.join
     end
     
     def stylesheet_code
-      @stylesheets.join("\n")
+      @stylesheets.join
     end
     
     def javascript_file
