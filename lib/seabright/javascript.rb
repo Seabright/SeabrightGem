@@ -1,6 +1,11 @@
 module Seabright
   class Javascript < Base
-    module Minifier
+    def minify(content)
+      class << content; include JSMinifier; end
+      content.compress.strip
+    end
+    
+    module JSMinifier
       def compress
         require 'closure-compiler'
         puts Closure::Compiler.new.compile(self)
