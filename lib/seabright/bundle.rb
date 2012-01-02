@@ -6,20 +6,21 @@ module Seabright
     
     def initialize(name,type=:file,&block)
       @name = name.to_sym
+      @type = type.to_sym
       $bundles ||= {}
-      if slf=$bundles[@name]
-        if type==:inline
-          return slf.inline_html
-        else
-          return slf.html
-        end
+      if $bundles[@name]
+        return $bundles[@name]
       end
       $bundles[@name] = self
       yield(self)
-      if type==:inline
-        return inline_html
-      else
+      if @type!=:inline
         save_files
+      end
+    end
+    
+    def to_s
+      if @type==:inline
+        return inline_html
       end
       return html
     end
