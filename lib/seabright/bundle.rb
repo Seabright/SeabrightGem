@@ -26,7 +26,7 @@ module Seabright
     
     def javascript(file=nil,&block)
       @javascripts ||= []
-      @javascripts.push file ? Javascript.from_file(file).to_s : Javascript.new(capture(&block)).to_s
+      @javascripts.push file ? Javascript.from_file(file).minified : Javascript.new(capture(&block)).minified
     end
     
     def stylesheet(file=nil,&block)
