@@ -3,12 +3,12 @@ module Seabright
     def self.minifies?(paths) !paths.grep(%r[\.css(\?\d+)?$]).empty?; end
 
     def minify(content)
-      class << content; include Minifier; end
+      class << content; include CSSMinifier; end
       content.compress_whitespace.remove_comments.remove_spaces_outside_block.
         remove_spaces_inside_block.trim_last_semicolon.encode_images.strip
     end
     
-    module Minifier
+    module CSSMinifier
       def compress_whitespace; compress!(/\s+/, ' '); end
       def remove_comments; compress!(/\/\*.*?\*\/\s?/, ''); end
       def remove_spaces_outside_block

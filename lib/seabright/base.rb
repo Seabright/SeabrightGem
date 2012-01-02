@@ -7,18 +7,11 @@ module Seabright
     def minified; @content; end
 
     def minify(content)
-      class << content; include Minifier; end
-      content.compress.strip
+      content.strip
     end
     
     def to_s
       minified
-    end
-    
-    module Minifier
-      def compress
-        self
-      end
     end
     
     class << self
