@@ -18,10 +18,6 @@ module Seabright
       end
     end
     
-    def [](name)
-      $bundles[name.to_sym] || nil
-    end
-    
     def to_s
       if @type==:inline
         return inline_html
@@ -66,6 +62,10 @@ module Seabright
     end
     
     class << self
+      
+      def [](name)
+        $bundles[name.to_sym] || nil
+      end
       
       def set_static_path(path)
         @@base_path = path
