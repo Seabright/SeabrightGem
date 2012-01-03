@@ -1,10 +1,10 @@
 module Seabright
-  DEBUG = false
+  @@debug = false
   def self.debug?
-    DEBUG
+    @@debug
   end
   def self.debug!
-    DEBUG = true
+    @@debug = true
   end
   autoload :Base, "seabright/base"
   autoload :ClassFactory, "seabright/class_factory"
