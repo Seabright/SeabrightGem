@@ -28,12 +28,14 @@ module Seabright
     def javascript(file=nil,&block)
       @javascripts ||= []
       @javascripts.push file ? Javascript.from_file(file).minified : Javascript.new(capture(&block)).minified
+      puts "Loaded javascript: #{file || "Captured text"}" if Seabright.debug?
     end
     alias :js :javascript
     
     def stylesheet(file=nil,&block)
       @stylesheets ||= []
       @stylesheets.push file ? Stylesheet.from_file(file) : Stylesheet.new(capture(&block))
+      puts "Loaded stylesheet: #{file || "Captured text"}" if Seabright.debug?
     end
     alias :css :stylesheet
     

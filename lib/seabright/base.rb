@@ -17,6 +17,7 @@ module Seabright
     class << self
       def from_file(path)
         if verify_path(path)
+          puts "Loading file: #{path}" if Seabright.debug?
           new(IO.read(path))
         else
           puts "File not found: #{path}"
