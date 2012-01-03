@@ -19,7 +19,7 @@ module Seabright
     end
     
     def [](name)
-      $bundles[key.to_sym] || nil
+      $bundles[name.to_sym] || nil
     end
     
     def to_s
