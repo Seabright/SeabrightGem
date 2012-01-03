@@ -20,6 +20,7 @@ module Seabright
           new(IO.read(path))
         else
           puts "File not found: #{path}"
+        end
       end
       def from_files(files)
         files = files.split(",") if files.class == String
