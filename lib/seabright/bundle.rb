@@ -18,11 +18,12 @@ module Seabright
       end
     end
     
-    def to_s
-      if @type==:inline
-        return inline_html
+    def to_s(compressed=true)
+      if compressed
+        @type==:inline ? inline_html : html
+      else
+        # create method to output the individual lines for each file without compression (for debugging)
       end
-      return html
     end
     
     def javascript(file=nil,&block)
@@ -51,7 +52,7 @@ module Seabright
       return @html if @html
       @html = ""
       @html << "<link rel=\"stylesheet\" href=\"#{stylesheet_url}\" media=\"screen\"/>\n" if @stylesheets
-      @html << "<script language=\"javascript\" href=\"#{javascript_url}\"></script>\n" if @javascripts
+      @html << "<script language=\"javascript\" src=\"#{javascript_url}\"></script>\n" if @javascripts
     end
     
     def inline_html
