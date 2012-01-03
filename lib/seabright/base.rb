@@ -2,6 +2,7 @@ module Seabright
   class Base
     def initialize(content=nil)
       @content = content.nil? ? nil : minify(content)
+      puts content if Seabright.verbose?
     end
     
     def minified; @content; end
