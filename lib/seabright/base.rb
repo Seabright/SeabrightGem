@@ -16,12 +16,15 @@ module Seabright
     
     class << self
       def from_file(path)
-        self.new(IO.read(path)) if verify_path(path)
+        if verify_path(path)
+          new(IO.read(path))
+        else
+          puts "File not found: #{path}"
       end
       def from_files(files)
         files = files.split(",") if files.class == String
         files.collect do |path|
-          self.from_file path.strip
+          from_file path.strip
         end.join("\n")
       end
       def verify_path(path)
