@@ -15,7 +15,9 @@ module Seabright
     module Minifier
       def compress
         require 'base64'
-        "data:image/png;base64,#{Base64.encode64(self).gsub("\n",'')}"
+        puts self
+        replace "data:image/png;base64,#{Base64.encode64(self).gsub("\n",'')}"
+        puts self
       end
     end
     

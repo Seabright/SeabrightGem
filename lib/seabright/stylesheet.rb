@@ -22,7 +22,7 @@ module Seabright
       def trim_last_semicolon; compress!(/;(?=\})/, ''); end
       def encode_images
         compress!(/\{(.*?)(?=\})/) do |m|
-          m.gsub(/\burl\(([^\)]+)\)/) { |n| "url(#{Seabright::Image.new($1)})" }.strip
+          m.gsub(/\burl\(([^\)]+)\)/) { |n| "url(#{Seabright::Image.from_file("static"+$1)})" }.strip
         end
       end
     private
