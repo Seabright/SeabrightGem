@@ -18,6 +18,10 @@ module Seabright
       end
     end
     
+    def [](name)
+      $bundles[key.to_sym] || nil
+    end
+    
     def to_s
       if @type==:inline
         return inline_html
