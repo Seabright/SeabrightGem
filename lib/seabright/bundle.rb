@@ -22,22 +22,52 @@ module Seabright
       if compressed
         @type==:inline ? inline_html : html
       else
-        # create method to output the individual lines for each file without compression (for debugging)
-        "<meta name=\"bundler\" value=\"BROKEN\"/>"
+        out = ""
+        @javascript_files.each do |file|
+          out << script_tag_for(file)
+        end
+        @stylesheet_files.each do |file|
+          out << link_tag_for(file)
+        end
+        out
       end
+    end
+    
+    def script_tag_for(file)
+      "<script language=\"javascript\" src=\"/#{file}\"></script>\n"
+    end
+    
+    def link_tag_for(file)
+      "<link rel=\"stylesheet\" href=\"/#{file}\" media=\"screen\"/>\n"
     end
     
     def javascript(file=nil,&block)
       @javascripts ||= []
-      @javascripts.push file ? Javascript.from_file(file).minified : Javascript.new(capture(&block)).minified
-      puts "Compressed javascript: #{file || "Captured text"}" if Seabright.debug?
+      @javascripts.push file ? Javascript.from_file("#{@@base_path}#{file}").minified : Javascript.new(capture(&block)).minified
+      puts "Compressed javascript: #{file ? "#{@@base_path}#{file}" : "Captured text"}" if Seabright.debug?
+      if file
+        @javascripts.push Javascript.from_file(file_from_base(file))
+        puts "Compressed javascript: #{file}" if Seabright.debug?
+      else 
+        Javascript.new(capture(&block)).minified
+        puts "Compressed javascript: Captured text" if Seabright.debug?
+      end
+      @javascript_files ||= []
+      @javascript_files.push file
     end
     alias :js :javascript
     
     def stylesheet(file=nil,&block)
       @stylesheets ||= []
-      @stylesheets.push file ? Stylesheet.from_file(file) : Stylesheet.new(capture(&block))
-      puts "Compressed stylesheet: #{file || "Captured text"}" if Seabright.debug?
+      if file
+        @stylesheets.push Stylesheet.from_file(file_from_base(file))
+        puts "Compressed stylesheet: #{file}" if Seabright.debug?
+      else 
+        Stylesheet.new(capture(&block))
+        puts "Compressed stylesheet: Captured text" if Seabright.debug?
+      end
+      @stylesheet_files ||= []
+      @stylesheet_files.push file
     end
     alias :css :stylesheet
     
