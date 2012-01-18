@@ -25,10 +25,10 @@ module Seabright
         out = ""
         @javascript_files.each do |file|
           out << script_tag_for(file)
-        end
+        end if @javascript_files
         @stylesheet_files.each do |file|
           out << link_tag_for(file)
-        end
+        end if @stylesheet_files
         out
       end
     end
