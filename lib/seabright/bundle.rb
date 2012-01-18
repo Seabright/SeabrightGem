@@ -70,7 +70,6 @@ module Seabright
     alias :css :stylesheet
     
     def file_from_base(file)
-      puts "#{@@base_path}#{file}"
       "#{@@base_path}#{file}"
     end
     
