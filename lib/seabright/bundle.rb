@@ -43,8 +43,6 @@ module Seabright
     
     def javascript(file=nil,&block)
       @javascripts ||= []
-      @javascripts.push file ? Javascript.from_file("#{@@base_path}#{file}").minified : Javascript.new(capture(&block)).minified
-      puts "Compressed javascript: #{file ? "#{@@base_path}#{file}" : "Captured text"}" if Seabright.debug?
       if file
         @javascripts.push Javascript.from_file(file_from_base(file))
         puts "Compressed javascript: #{file}" if Seabright.debug?
@@ -70,6 +68,11 @@ module Seabright
       @stylesheet_files.push file
     end
     alias :css :stylesheet
+    
+    def file_from_base(file)
+      puts "#{@@base_path}#{file}"
+      "#{@@base_path}#{file}"
+    end
     
     def javascript_url
       url
