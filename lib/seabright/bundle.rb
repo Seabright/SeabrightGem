@@ -4,9 +4,10 @@ module Seabright
     @@base_path = "static/"
     @@cache_subdir = "cache/"
     
-    def initialize(name,type=:file,&block)
+    def initialize(name,type=:file,compress=true,&block)
       @name = name.to_sym
       @type = type.to_sym
+      @compress = compress
       $bundles ||= {}
       if $bundles[@name]
         return $bundles[@name]
@@ -43,10 +44,10 @@ module Seabright
     
     def javascript(file=nil,&block)
       @javascripts ||= []
-      if file
+      if file && @compress
         @javascripts.push Javascript.from_file(file_from_base(file))
         puts "Compressed javascript: #{file}" if Seabright.debug?
-      else 
+      elsif @compress
         Javascript.new(capture(&block)).minified
         puts "Compressed javascript: Captured text" if Seabright.debug?
       end
@@ -57,10 +58,10 @@ module Seabright
     
     def stylesheet(file=nil,&block)
       @stylesheets ||= []
-      if file
+      if file && @compress
         @stylesheets.push Stylesheet.from_file(file_from_base(file))
         puts "Compressed stylesheet: #{file}" if Seabright.debug?
-      else 
+      elsif @compress
         Stylesheet.new(capture(&block))
         puts "Compressed stylesheet: Captured text" if Seabright.debug?
       end
