@@ -2,7 +2,7 @@ module Seabright
   class Bundle
     
     @@base_path = "static/"
-    @@cache_subdir = "cache/"
+    @@cache_subdir = "/cache/"
     
     def initialize(name,type=:file,compress=true,&block)
       @name = name.to_sym
