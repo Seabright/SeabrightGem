@@ -105,6 +105,10 @@ module Seabright
       def set_static_path(path)
         @@base_path = path
       end
+
+			def static_path
+				@@base_path
+			end
       
       def set_cache_subdir(path)
         @@cache_subdir = path
