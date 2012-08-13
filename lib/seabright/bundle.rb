@@ -103,7 +103,7 @@ module Seabright
       end
       
       def set_static_path(path)
-        @@base_path = path
+        @@base_path = path + "/"
       end
 
 			def static_path
