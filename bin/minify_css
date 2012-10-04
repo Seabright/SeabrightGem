@@ -4,6 +4,8 @@ require 'seabright'
 
 Seabright::Bundle.set_static_path(Dir.pwd)
 
-puts Seabright::Bundle.new(:output,:inline) do
+Seabright::Bundle.new(:output,:inline) do
 	css ARGV[0]
-end.to_s
+end
+
+puts Seabright::Bundle[:output].stylesheet_code

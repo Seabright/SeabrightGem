@@ -196,7 +196,6 @@ module Seabright
 		end
 		
 		def javascript(file=nil,&block)
-			puts "Adding: #{file}"
 			javascript_files.push file
 			fl = JSFile.new(file)
 			files.push fl

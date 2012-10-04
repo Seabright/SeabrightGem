@@ -3,9 +3,6 @@
 require 'seabright'
 
 Seabright::Bundle.set_static_path(Dir.pwd)
-Seabright::Bundle.set_cache_subdir("/")
-
-puts ARGV[0]
 
 Seabright::Bundle.new(:output,:inline) do
 	js ARGV[0]
