@@ -55,7 +55,7 @@ module Seabright
 					case $2
 					when ".png",".jpg",".jpeg",".gif"
 						img = $1
-						fl = !@file || /^\//.match(img) ? "#{Seabright::Bundle.static_path}#{img[1..-1]}" : "#{File.expand_path(File.dirname(@file))}#{img}"
+						fl = !@file || /^\//.match(img) ? "#{Seabright::Bundle.static_path}#{img[1..-1]}" : "#{File.expand_path(File.dirname(@file))}/#{img}"
 						file = Seabright::Image.from_file(fl)
 						if $encoded.include?(fl)
 							# puts "\e[31m" << "Duplicate image: #{fl} (in #{@file})" << "\e[0m" if DEBUG
