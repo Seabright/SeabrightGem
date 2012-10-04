@@ -5,7 +5,9 @@ require 'seabright'
 Seabright::Bundle.set_static_path(Dir.pwd)
 
 Seabright::Bundle.new(:output,:inline) do
-	js ARGV[0]
+	ARGV.each do |file|
+		js file
+	end
 end
 
 puts Seabright::Bundle[:output].javascript_code
