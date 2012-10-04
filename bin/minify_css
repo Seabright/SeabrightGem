@@ -1,5 +1,7 @@
 #!/usr/bin/env ruby
 
+DEBUG = true
+
 require 'seabright'
 
 Seabright::Bundle.set_static_path(Dir.pwd + '/')
