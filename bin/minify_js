@@ -2,7 +2,7 @@
 
 require 'seabright'
 
-Seabright::Bundle.set_static_path(File.pwd)
+Seabright::Bundle.set_static_path(Dir.pwd)
 
 puts Seabright::Bundle.new(:output,:inline) do
 	js ARGV[0]
