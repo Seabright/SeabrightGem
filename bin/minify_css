@@ -12,8 +12,9 @@ Seabright::Bundle.new(:output,:inline) do
 	end
 end
 
+code = Seabright::Bundle[:output].stylesheet_code
 if $return == 0
-	puts Seabright::Bundle[:output].stylesheet_code
+	puts code
 else
 	puts "Fix errors above before compressing!"
 end
