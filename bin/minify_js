@@ -1,0 +1,7 @@
+#!/bin/env ruby
+
+Seabright::Bundle.set_static_path(File.pwd)
+
+puts Seabright::Bundle.new(:output,:inline) do
+	js ARGV[0]
+end.to_s

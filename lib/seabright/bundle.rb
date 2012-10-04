@@ -20,7 +20,7 @@ module Seabright
 		# end
 		
 		def signature
-			@sig ||= Proc.new { |file|
+			Proc.new { |file|
 				sig = file
 				File.open(file) do |f|
 					sig << f.mtime.to_i.to_s
@@ -56,6 +56,34 @@ module Seabright
 	
 	class CSSFile < BaseFile
 		
+		def signature
+			Proc.new { |file|
+				sig = get_file(file)
+				File.open(sig) do |f|
+					sig << f.mtime.to_i.to_s
+				end
+				require 'digest'
+				Digest::MD5.hexdigest(sig)
+			}.call(file)
+		end
+		
+		def scss_path(path)
+			File.dirname(path) + "/sass/" + File.basename(path).split(".")[0] + ".scss"
+		end
+		
+		def verify_path(path)
+			File.exists?(path)
+		end
+		
+		def get_file(path)
+			if verify_path(path)
+				return path
+			elsif verify_path(spath = scss_path(path))
+				return spath
+			end
+			return path
+		end
+		
 		def compressed
 			if @type == :file 
 				return Stylesheet.from_file(file)
@@ -90,7 +118,10 @@ module Seabright
 		end
 		
 		def to_s(compressed=compressed?)
-			if compressed
+			unless @last_sig_time && @last_sig_time > (Time.now - 60)
+				expire_sigs
+			end
+			if compressed?
 				@type==:inline ? inline_html : html
 			else
 				out = ""
@@ -102,23 +133,30 @@ module Seabright
 		end
 		
 		def compressed?
-			@compressed ||= (js_compressed? && css_compressed?)
+			(js_compressed? && css_compressed?)
 		end
 		
 		def compress!
-			@compressed = compressed? || (compress_js! && compress_css!)
+			expire_sigs
+			@compressed = (compress_js! && compress_css!)
+		end
+		
+		def expire_sigs
+			@sig = @js_sig = @css_sig = @html = @inline = nil
+			@last_sig_time = Time.now
 		end
 		
 		def js_compressed?
-			puts "Checking for file: #{javascript_file}"
 			File.exists?(javascript_file) || !has_javascript?
 		end
 		
 		def compress_js!
 			return true if js_compressed?
+			code = javascript_code
 			File.open(javascript_file, 'w') do |f|
-				f.write(javascript_code)
+				f.write(code)
 			end
+			code = nil
 			true
 		end
 		
@@ -128,14 +166,29 @@ module Seabright
 		
 		def compress_css!
 			return true if css_compressed?
+			code = stylesheet_code
 			File.open(stylesheet_file, 'w') do |f|
-				f.write(stylesheet_code)
+				f.write(code)
 			end
+			code = nil
 			true
 		end
 		
-		def signature
-			@signature ||= generate_signature
+		def signature(f)
+			sig = Proc.new { |files|
+				sig = files.inject("") {|a,v| a << v.signature; a}
+				require 'digest'
+				Digest::MD5.hexdigest(sig)
+			}.call(f)
+			sig
+		end
+		
+		def js_signature
+			@js_sig ||= signature(javascripts)
+		end
+		
+		def css_signature
+			@css_sig ||= signature(stylesheets)
 		end
 		
 		def files
@@ -233,7 +286,7 @@ module Seabright
 		private
 		
 		def url(ext=:js)
-			"#{@@cache_subdir}#{@name}-#{signature}.#{ext}"
+			"#{@@cache_subdir}#{@name}-#{send("#{ext}_signature".to_sym)}.#{ext}"
 		end
 		
 		def javascript_code
@@ -258,15 +311,6 @@ module Seabright
 		
 		def file_from_base(file)
 			"#{@@base_path}#{file}"
-		end
-		
-		def generate_signature
-			puts "Generating signature:"
-			sig = files.inject("") {|a,v| a << v.signature; a}
-			require 'digest'
-			sig = Digest::MD5.hexdigest(sig)
-			puts "  #{sig}"
-			sig
 		end
 		
 	end
