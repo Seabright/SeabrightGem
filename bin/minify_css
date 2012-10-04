@@ -1,5 +1,7 @@
 #!/bin/env ruby
 
+require 'seabright'
+
 Seabright::Bundle.set_static_path(File.pwd)
 
 puts Seabright::Bundle.new(:output,:inline) do
