@@ -1,9 +1,14 @@
-#!/bin/env ruby
+#!/usr/bin/env ruby
 
 require 'seabright'
 
 Seabright::Bundle.set_static_path(Dir.pwd)
 
-puts Seabright::Bundle.new(:output,:inline) do
+puts ARGV[0]
+
+Seabright::Bundle.new(:output,:inline) do
 	js ARGV[0]
-end.to_s
+end
+
+Seabright::Bundle[:output].compress!
+puts Seabright::Bundle[:output].to_s
