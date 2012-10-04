@@ -284,12 +284,6 @@ module Seabright
 			
 		end
 		
-		private
-		
-		def url(ext=:js)
-			"#{@@cache_subdir}#{@name}-#{send("#{ext}_signature".to_sym)}.#{ext}"
-		end
-		
 		def javascript_code
 			javascripts.collect do |fl|
 				fl.compressed
@@ -300,6 +294,12 @@ module Seabright
 			stylesheets.collect do |fl|
 				fl.compressed
 			end.join
+		end
+		
+		private
+		
+		def url(ext=:js)
+			"#{@@cache_subdir}#{@name}-#{send("#{ext}_signature".to_sym)}.#{ext}"
 		end
 		
 		def javascript_file
