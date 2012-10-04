@@ -2,7 +2,7 @@
 
 require 'seabright'
 
-Seabright::Bundle.set_static_path(Dir.pwd)
+Seabright::Bundle.set_static_path(Dir.pwd + '/')
 
 Seabright::Bundle.new(:output,:inline) do
 	ARGV.each do |file|
