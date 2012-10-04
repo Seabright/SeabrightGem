@@ -15,6 +15,7 @@ module Seabright
 					new(IO.read(path),path)
 				elsif verify_path(spath = scss_path(path))
 					puts "Loading file: #{spath}" if Seabright.debug?
+					@sass = true
 					new(IO.read(spath),spath,true)
 				else
 					puts "\e[33m" << "File not found: #{path}" << "\e[0m"
@@ -37,7 +38,7 @@ module Seabright
 		def self.minifies?(paths) !paths.grep(%r[\.css(\?\d+)?$]).empty?; end
 		
 		def minify(content)
-			if true || @sass
+			if @sass
 				class << content; include SASSifier; end
 				content.sassify!
 			end
