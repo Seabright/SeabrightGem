@@ -1,7 +1,9 @@
 module Seabright
   class Image < Base
 
-    def initialize(content=nil)
+    def initialize(content=nil,path=nil,type="image/png")
+			@file = path
+			@type = type
       @content = content.nil? ? nil : minify(content)
     end
     
@@ -9,13 +11,13 @@ module Seabright
 
     def minify(content)
       class << content; include Minifier; end
-      content.compress.strip
+			"data:#{@type};base64,#{content.compress.strip}"
     end
     
     module Minifier
       def compress
         require 'base64'
-        replace "data:image/png;base64,#{Base64.encode64(self).gsub("\n",'')}"
+        replace Base64.encode64(self).gsub("\n",'')
       end
     end
     

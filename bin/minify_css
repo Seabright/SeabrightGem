@@ -1,0 +1,15 @@
+#!/usr/bin/env ruby
+
+DEBUG = true
+
+require 'seabright'
+
+Seabright::Bundle.set_static_path(Dir.pwd + '/')
+
+Seabright::Bundle.new(:output,:inline) do
+	ARGV.each do |file|
+		css ARGV[0]
+	end
+end
+
+puts Seabright::Bundle[:output].stylesheet_code

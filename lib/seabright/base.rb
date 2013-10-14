@@ -1,6 +1,7 @@
 module Seabright
   class Base
-    def initialize(content=nil)
+    def initialize(content=nil,file=nil)
+			@file = file
       @content = content.nil? ? nil : minify(content)
       puts content if Seabright.verbose?
     end
@@ -19,9 +20,9 @@ module Seabright
       def from_file(path)
         if verify_path(path)
           puts "Loading file: #{path}" if Seabright.debug?
-          new(IO.read(path))
+          new(IO.read(path),path)
         else
-          puts "File not found: #{path}"
+          puts "\e[33m" << "File not found: #{path}" << "\e[0m"
         end
       end
       def from_files(files)
